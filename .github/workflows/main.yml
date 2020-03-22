@@ -20,13 +20,7 @@ jobs:
         run: bundle exec rspec
       - name: Bundle with Native Extensions
         run: |
-          docker run --rm -v $PWD:/var/task -i lambci/lambda:build-ruby2.7 bash <<EOF
-            docker run
-            mkdir /tmp/bin
-            yum install -y cmake3 openssl-devel libicu-devel
-            ln -s /tmp/bin/cmake /usr/bin/cmake3
-            env PATH=/tmp/bin:$PATH bundle install --without test --path=vendor/bundle
-          EOF
+          docker run --rm -v $PWD:/var/task -i lambci/lambda:build-ruby2.7 bash < build-native-extensions.sh
       - name: Package
         run: |
           npm run pack
