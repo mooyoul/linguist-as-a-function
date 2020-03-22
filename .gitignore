@@ -61,3 +61,5 @@ jspm_packages
 
 # Serverless directories
 .serverless
+
+dst.zip
