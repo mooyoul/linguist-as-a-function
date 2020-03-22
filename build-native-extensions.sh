@@ -3,4 +3,6 @@
 mkdir /tmp/bin
 yum install -y cmake3 openssl-devel libicu-devel
 ln -s /usr/bin/cmake3 /tmp/bin/cmake
-env PATH=/tmp/bin:$PATH bundle install --without test --path=vendor/bundle
+bundle config set without 'test'
+bundle config set path 'vendor/bundler'
+env PATH=/tmp/bin:$PATH bundle install
