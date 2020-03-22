@@ -1,0 +1,36 @@
+name: CI
+on: push
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup
+        run: |
+          apt-get update
+          apt-get install -y zip
+      - name: Prepare
+        run: |
+          bundle install
+          npm ci
+      - name: Test
+        run: bundle exec rspec
+      - name: Bundle with Native Extensions
+        container: lambci/lambda:build-ruby2.7
+        run: |
+          mkdir /tmp/bin
+          yum install -y cmake3 openssl-devel libicu-devel
+          ln -s /tmp/bin/cmake /usr/bin/cmake3
+          env PATH=/tmp/bin:$PATH bundle install --without test --path=vendor/bundle
+      - name: Package
+        run: |
+          npm run pack
+#      - name: Deploy
+#        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+#        run: npm run deploy
+#        env:
+#          AWS_DEFAULT_REGION: us-east-1
+#          AWS_REGION: us-east-1
+#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

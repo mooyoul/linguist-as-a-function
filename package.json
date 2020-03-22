@@ -1,0 +1,23 @@
+{
+  "name": "linguist-as-a-function",
+  "version": "1.0.0",
+  "description": "github/linguist as a Lambda Function",
+  "scripts": {
+    "prepack": "rm -f dst.zip",
+    "pack": "zip -qry dst.zip index.rb vendor/bundler",
+    "deploy": "sls deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mooyoul/linguist-as-a-function.git"
+  },
+  "author": "MooYeol Prescott Lee <mooyoul@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mooyoul/linguist-as-a-function/issues"
+  },
+  "homepage": "https://github.com/mooyoul/linguist-as-a-function#readme",
+  "devDependencies": {
+    "serverless": "1.67.0"
+  }
+}
