@@ -18,9 +18,6 @@ jobs:
           docker pull lambci/lambda:build-ruby2.7
       - name: Test
         run: bundle exec rspec
-      - name: Bundle with Native Extensions
-        run: |
-          docker run --rm -v $PWD:/var/task -i lambci/lambda:build-ruby2.7 bash < build-native-extensions.sh
       - name: Package
         run: |
           npm run pack
