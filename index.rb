@@ -25,18 +25,13 @@ module LinguistHandler
             JSON.parse(raw_body)
           end
         rescue
-          nil
+          {}
         end
 
-      result =
-        if body
-          name = body["name"]
-          data = Base64.decode64(body["data"] || "")
+      name = body["name"] || ""
+      data = Base64.decode64(body["data"] || "")
 
-          detect(path: name, data: data)
-        else
-          nil
-        end
+      result = detect(path: name, data: data)
 
       {
           statusCode: 200,
@@ -51,13 +46,29 @@ module LinguistHandler
 
     def self.detect(path:, data:)
       blob = Linguist::Blob.new(path, data)
-      language = Linguist.detect(blob)
+      type =
+        if blob.text?
+          "Text"
+        elsif blob.image?
+          "Image"
+        else
+          "Binary"
+        end
 
-      if language
-        { name: language.to_s }
-      else
-        nil
-      end
+      language =
+        if blob.language.nil?
+          nil
+        else
+          blob.language.to_s
+        end
+
+      {
+        :lines => blob.loc,
+        :sloc => blob.sloc,
+        :type => type,
+        :mime_type => blob.mime_type,
+        :language => language,
+      }
     end
   end
 end
