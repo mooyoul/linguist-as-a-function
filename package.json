@@ -4,7 +4,7 @@
   "description": "github/linguist as a Lambda Function",
   "scripts": {
     "prepack": "rm -f dst.zip",
-    "pack": "zip -qry dst.zip index.rb vendor/bundler",
+    "pack": "zip -qry dst.zip index.rb .bundle vendor/bundler",
     "deploy": "sls deploy"
   },
   "repository": {
