@@ -17,7 +17,7 @@ jobs:
       - name: Test
         run: bundle exec rspec
       - name: Bundle with Native Extensions
-        container: lambci/lambda:build-ruby2.7
+        uses: lambci/lambda:build-ruby2.7
         run: |
           mkdir /tmp/bin
           yum install -y cmake3 openssl-devel libicu-devel
